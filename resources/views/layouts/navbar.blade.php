@@ -9,22 +9,18 @@
         <li class="nav-item">
           <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a>
         </li>
-          <li class="nav-item">
-         <a class="nav-link {{ Request::is('admin/users') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">Users</a>
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">Users</a>
         </li>
         {{-- <li class="nav-item">
-          <a class="nav-link {{ Request::is('produk') ? 'active' : '' }}" href="{{ route('produk.index') }}">Produk</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('penjualan') ? 'active' : '' }}" href="{{ route('penjualan.index') }}">Penjualan</a>
-        </li>
-       --}}
+          <a class="nav-link {{ Request::is('produk*') ? 'active' : '' }}" href="{{ route('produk.index') }}">Produk</a>
+        </li> --}}
       </ul>
-      <form class="position-absolute top-50 start-100 translate-middle" action="{{ route('logout') }}" method="POST">
+      
+      <form action="{{ route('logout') }}" method="POST" class="d-flex">
         @csrf
-        <button type="submit" class="btn btn-danger">logout</button>
-    </form>
-
+        <button type="submit" class="btn btn-danger">Logout</button>
+      </form>
     </div>
   </div>
 </nav>

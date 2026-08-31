@@ -2,28 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory as FactoriesHasFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Penjualan extends Model
 {
-    use FactoriesHasFactory;
-    protected $table = 'penjualan';
-     protected $fillable = [
-        'user_id',
-        'total_pembayaran',
-        'metode_pembayaran',
-        'status',
-       
-    ];
+    use HasFactory;
 
-    public function role()
+    protected $table = 'penjualan';
+    protected $guarded = ['id'];
+
+    /**
+     * Relasi ke model User (Kasir)
+     */
+    public function user()
     {
+        // Parameter kedua ('user_id') adalah nama kolom foreign key di tabel penjualan.
+        // Sesuaikan jika nama kolom di database Anda berbeda (misal: 'id_user' atau 'kasir_id').
         return $this->belongsTo(User::class, 'user_id');
-    }
-      public function itemPenjualan()
-    {
-        return $this->hasMany(itemPenjualan::class, 'penjualan_id');
     }
 }
