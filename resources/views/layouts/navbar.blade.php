@@ -12,9 +12,12 @@
         <li class="nav-item">
           <a class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">Users</a>
         </li>
-        {{-- <li class="nav-item">
+         <li class="nav-item">
           <a class="nav-link {{ Request::is('produk*') ? 'active' : '' }}" href="{{ route('produk.index') }}">Produk</a>
-        </li> --}}
+        </li> 
+         <li class="nav-item">
+          <a class="nav-link {{ Request::is('penjualan*') ? 'active' : '' }}" href="{{ route('penjualan.index') }}">Penjualan</a>
+        </li> 
       </ul>
       
       <form action="{{ route('logout') }}" method="POST" class="d-flex">
