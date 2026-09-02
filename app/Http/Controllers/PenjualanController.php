@@ -91,31 +91,37 @@ class PenjualanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+   public function edit(Penjualan $penjualan)
+{
+    $sale = $penjualan;
+
+    abort_if($sale->status === 'COMPLETED', 403);
+
+    $sale->load('itemPenjualan');
+    $products = Produk::orderBy('nama')->get();
+    $mode = 'edit';
+
+    return view('penjualan.pos', compact('sale', 'products', 'mode'));
+}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Penjualan $penjualan)
+  public function update(Request $request, Penjualan $penjualan)
 {
     $request->validate([
         'payment_method' => 'required|in:CASH,QRIS'
     ]);
 
     if ($penjualan->status !== 'OPEN') {
-        return back()->with('errors', 'Transaksi sudah diproses');
+        return back()->withErrors('Transaksi sudah diproses');
     }
 
     if ($penjualan->itemPenjualan()->count() === 0) {
-        return back()->with('errors', 'Keranjang masih kosong');
+        return back()->withErrors('Keranjang masih kosong');
     }
 
     DB::transaction(function () use ($penjualan, $request) {
-
-        // 🔄 Hitung ulang total (anti manipulasi)
         $total = $penjualan->itemPenjualan()->sum('subtotal');
 
         $penjualan->update([
@@ -129,33 +135,28 @@ class PenjualanController extends Controller
         ->route('penjualan.index')
         ->with('success', 'Transaksi berhasil diselesaikan');
 }
-
     /**
      * Remove the specified resource from storage.
      */
-   public function destroy(Penjualan $penjualan)
+public function destroy(Penjualan $penjualan)
 {
-    // ❗️ Pastikan hanya transaksi OPEN
+    $this->authorize('delete', $penjualan);
+    // ! Pastikan hanya transaksi OPEN
     if ($penjualan->status !== 'OPEN') {
-        return redirect()->route('penjualan.create')->with('errors', 'Transaksi sudah selesai tidak bisa dibatalkan');
-    }
-
-    // ❗️ Pastikan milik user login (kasir)
-    if ($penjualan->user_id !== Auth::id()) {
-        return redirect()->route('penjualan.create');
+        return redirect()->route('penjualan.index')->withErrors('Transaksi sudah selesai tidak bisa dibatalkan');
     }
 
     DB::transaction(function () use ($penjualan) {
 
         foreach ($penjualan->itemPenjualan as $item) {
-            // ⏫ kembalikan stok
+            // kembalikan stok
             $item->produk->increment('stok', $item->kuantitas);
         }
 
-        // ❌ hapus item
+        // hapus item
         $penjualan->itemPenjualan()->delete();
 
-        // ❌ hapus penjualan
+        // hapus penjualan
         $penjualan->delete();
     });
 

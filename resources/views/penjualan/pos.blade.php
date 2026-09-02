@@ -87,7 +87,6 @@
                 @forelse($sale->itemPenjualan as $item)
                 <tr>
                     <td>{{ $item->produk->nama }}</td>
-                    <td>Rp.{{ number_format($item->harga_jual) }}</td>
                     <td>
                         <form method="POST" action="{{ route('itempenjualan.update', $item->id) }}">
                             @csrf @method('PUT')
@@ -96,12 +95,16 @@
                                 class="form-control form-control-sm">
                         </form>
                     </td>
+                    {{-- <td>Rp.{{ number_format($item->harga_jual) }}</td> --}}
+                    
                     <td>Rp {{ number_format($item->subtotal) }}</td>
                     <td>
-                        <form method="" action="">
+                       @can('delete', $item)
+                        <form method="POST" action="{{ route('itempenjualan.destroy', $item->id) }}">
                             @csrf @method('DELETE')
                             <button class="btn btn-danger btn-sm">Hapus</button>
                         </form>
+                        @endcan
                     </td>
                 </tr>
                 @empty
@@ -132,7 +135,7 @@
                     Checkout
                 </button>
             </form>
-
+            @can('delete', $sale)
             <form action="{{ route('penjualan.destroy', $sale->id) }}"
     method="POST"
     onsubmit="return confirm('Yakin ingin membatalkan transaksi?')">
@@ -143,6 +146,7 @@
         Batalkan Transaksi
     </button>
 </form>
+@endcan
         </div>
     </div>
 </div>

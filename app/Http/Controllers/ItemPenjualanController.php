@@ -107,6 +107,7 @@ public function update(Request $request, ItemPenjualan $itempenjualan)
 }
 public function destroy(ItemPenjualan $itempenjualan)
 {
+    $this->authorize('delete', $itempenjualan);
     DB::transaction(function () use ($itempenjualan) {
 
         $produk = $itempenjualan->produk;

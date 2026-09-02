@@ -16,13 +16,11 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-
-    @if(session('errors'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ is_object(session('errors')) ? session('errors')->first() : session('errors') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+@if(session('errors'))
+    <div class="alert alert-danger">
+        {{ $errors->first() }}
+    </div>
+@endif
 
     <!-- Tombol Create -->
     <a href="{{ route('penjualan.create') }}" class="btn btn-primary mb-3">Create</a>
@@ -74,11 +72,13 @@
                     </td>
                     <td class="text-center">
                         <a href="{{ route('penjualan.show', $sale->id) }}" class="btn btn-sm btn-info text-white">Detail</a>
-                        
-                        {{-- Tombol Edit / Lanjutkan Transaksi jika masih OPEN --}}
-                        <a href="{{ route('penjualan.edit', $sale->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                        
-                        <form action="{{ route('penjualan.destroy', $sale->id) }}" method="POST" class="d-inline">
+                        @can('view', $sale)
+                        ||
+                        <a href="{{ route('penjualan.edit', $sale) }}" class="btn btn-sm btn-warning">Edit</a>
+                        @endcan
+                        @can('delete', $sale)
+                        ||
+                        <form action="{{ route('penjualan.destroy', $sale) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" 
@@ -86,7 +86,9 @@
                                     onclick="return confirm('Apakah anda yakin ingin membatalkan/menghapus penjualan ini?')">
                                 Hapus
                             </button>
+                        @endcan
                         </form>
+                       
                     </td>
                 </tr>
                 @empty

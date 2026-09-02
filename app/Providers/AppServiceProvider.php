@@ -9,12 +9,18 @@ use App\Models\User;
 use App\Policies\DashboardPolicy;
 use App\Models\Produk;
 use App\Policies\ProdukPolicy;
+use App\Models\Penjualan;
+use App\Policies\PenjualanPolicy;
+use App\Models\ItemPenjualan;
+use App\Policies\ItemPenjualanPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
     protected $policies = [
     User::class   => DashboardPolicy::class,
-    Produk::class => ProdukPolicy::class
+    Produk::class => ProdukPolicy::class,
+    Penjualan::class => PenjualanPolicy::class,
+    ItemPenjualan::class => ItemPenjualanPolicy::class
 ];
 
     /**
