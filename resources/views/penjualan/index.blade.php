@@ -16,11 +16,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-@if(session('errors'))
-    <div class="alert alert-danger">
-        {{ $errors->first() }}
-    </div>
-@endif
 
     <!-- Tombol Create -->
     <a href="{{ route('penjualan.create') }}" class="btn btn-primary mb-3">Create</a>

@@ -137,10 +137,10 @@
             </form>
             @can('delete', $sale)
             <form action="{{ route('penjualan.destroy', $sale->id) }}"
-    method="POST"
-    onsubmit="return confirm('Yakin ingin membatalkan transaksi?')">
-    @csrf
-    @method('DELETE')
+                method="POST"
+                onsubmit="return confirm('Yakin ingin membatalkan transaksi?')">
+                @csrf
+                @method('DELETE')
 
     <button class="btn btn-outline-danger w-100 mt-2 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
         Batalkan Transaksi
