@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Produk extends Model
 {
     use HasFactory;
 
-    protected $table = 'produk';
-    
+    // Tambahkan baris ini untuk menentukan nama tabel
+    protected $table = 'produk'; 
+
     protected $fillable = [
         'user_id',
+        'jenis_id',
         'foto',
         'nama',
         'harga_beli',
@@ -20,13 +22,13 @@ class Produk extends Model
         'stok',
     ];
 
-    public function user()
+    public function jenis()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Jenis::class);
     }
 
-    public function itemPenjualan()
+    public function user()
     {
-        return $this->hasMany(itemPenjualan::class, 'produk_id');
+        return $this->belongsTo(User::class);
     }
 }
