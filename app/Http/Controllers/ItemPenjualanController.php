@@ -14,7 +14,7 @@ class ItemPenjualanController extends Controller
     public function store(Request $request)
 {
     $request->validate([
-        'product_id' => 'required|exists:produk,id',
+       'product_id' => 'required|exists:produks,id',
         'quantity' => 'required|integer|min:1'
     ]);
 
