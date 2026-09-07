@@ -9,9 +9,6 @@ class Produk extends Model
 {
     use HasFactory;
 
-    // Tambahkan baris ini untuk menentukan nama tabel
-    protected $table = 'produk'; 
-
     protected $fillable = [
         'user_id',
         'jenis_id',
