@@ -83,10 +83,17 @@ class PenjualanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show($id)
+{
+    $sale = Penjualan::with('itemPenjualan.produk.jenis', 'user')->findOrFail($id);
+    return view('penjualan.detail', compact('sale'));
+}
+
+public function struk($id)
+{
+    $sale = Penjualan::with('itemPenjualan.produk.jenis')->findOrFail($id);
+    return view('penjualan.struk', compact('penjualan'));
+}
 
     /**
      * Show the form for editing the specified resource.
