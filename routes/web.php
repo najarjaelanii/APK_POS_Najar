@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemPenjualanController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JenisController;
+use App\Http\Controllers\AboutController;
 
 // Route untuk guest (belum login)
 Route::middleware('guest')->group(function () {
@@ -18,6 +19,7 @@ Route::middleware('guest')->group(function () {
 // Route untuk user yang sudah login
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/about', [AboutController::class, 'index'])->name('about');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Khusus Admin
