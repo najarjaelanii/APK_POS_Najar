@@ -32,7 +32,17 @@ Route::middleware('auth')->group(function () {
         Route::resource('/produk', ProdukController::class);
         Route::resource('/penjualan', PenjualanController::class);
         Route::get('/penjualan/{id}/struk', [PenjualanController::class, 'struk'])->name('penjualan.struk');
-        Route::resource('/itempenjualan', ItemPenjualanController::class);
-        Route::resource('/jenis', JenisController::class);
+        
+        // 🔄 Redirect otomatis jika route GET /itempenjualan diakses lewat browser
+        Route::get('/itempenjualan', function () {
+            return redirect()->route('penjualan.create');
         });
+
+        // 🛠️ Dibatasi hanya untuk method store, update, dan destroy
+        Route::resource('/itempenjualan', ItemPenjualanController::class)->only([
+            'store', 'update', 'destroy'
+        ]);
+        
+        Route::resource('/jenis', JenisController::class);
     });
+});

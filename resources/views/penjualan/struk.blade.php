@@ -81,7 +81,7 @@
     <div class="struk">
 
         <div class="text-center">
-            <span class="fw-bold" style="font-size: 14px;">POS NAZWA</span>
+            <span class="fw-bold" style="font-size: 14px;">POS NAJAR</span>
         </div>
 
         <div class="divider"></div>
