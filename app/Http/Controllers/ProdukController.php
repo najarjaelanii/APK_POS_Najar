@@ -82,15 +82,13 @@ class ProdukController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Produk $produk)
-    {
-        $this->authorize('Update', $produk);
+public function edit($id)
+{
+    $produk = Produk::findOrFail($id);
+    $jenis = Jenis::all();
 
-        $jenis = Jenis::all();
-
-        return view('produk.edit', compact('produk', 'jenis'));
-    }
-
+    return view('produk.edit', compact('produk', 'jenis'));
+}
     /**
      * Update the specified resource in storage.
      */
