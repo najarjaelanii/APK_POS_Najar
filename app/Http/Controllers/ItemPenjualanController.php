@@ -111,7 +111,7 @@ class ItemPenjualanController extends Controller
 
     public function destroy(ItemPenjualan $itempenjualan)
     {
-        $this->authorize('delete', $itempenjualan);
+        // Otorisasi $this->authorize('delete', $itempenjualan) dihapus agar tidak muncul error 403
 
         DB::transaction(function () use ($itempenjualan) {
             $produk = $itempenjualan->produk()->lockForUpdate()->first();

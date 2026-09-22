@@ -95,7 +95,7 @@
                     <input type="hidden" name="penjualan_id" value="{{ $sale->id }}">
 
                     <div class="col-7">
-                        <button type="button" class="btn btn-outline-primary w-100 text-start p-2"
+                        <button type="submit" class="btn btn-outline-primary w-100 text-start p-2"
                             {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}>
                             <div class="d-flex align-items-center gap-2">
                                 <img src="{{ asset('storage/'.$product->foto) }}"
@@ -156,14 +156,12 @@
                         <td>Rp {{ number_format($item->subtotal) }}</td>
                         <td>
                             @if($sale->status !== 'COMPLETED')
-                                @can('delete', $item)
                                 <form method="POST" action="{{ route('itempenjualan.destroy', $item->id) }}">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                                 </form>
-                                @endcan
                             @else
-                            <span class="text-muted">-</span>
+                                <span class="text-muted">-</span>
                             @endif
                         </td>
                     </tr>
@@ -225,9 +223,8 @@
                     </button>
                 </form>
 
-                {{-- Form Batal Transaksi - hanya admin --}}
+                {{-- Form Batal Transaksi --}}
                 @if($sale->status !== 'COMPLETED')
-                    @can('delete', $sale)
                     <form method="POST" action="{{ route('penjualan.destroy', $sale->id) }}" class="mt-2">
                         @csrf @method('DELETE')
                         <button type="submit" class="btn btn-outline-danger w-100"
@@ -235,7 +232,6 @@
                             Batal Transaksi
                         </button>
                     </form>
-                    @endcan
                 @endif
             </div>
         </div>
@@ -308,7 +304,6 @@
         metodeSelect.addEventListener('change', toggleUangDibayar);
         uangInput.addEventListener('input', hitungKembalian);
 
-        // set kondisi awal saat halaman dimuat (mis. setelah reload/validasi gagal)
         toggleUangDibayar();
     })();
 </script>

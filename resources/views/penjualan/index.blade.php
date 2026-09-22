@@ -4,6 +4,8 @@
 
 @section('content')
 
+@include('layouts.navbar')
+
 <style>
     h1 {
         color: #2c3e50;

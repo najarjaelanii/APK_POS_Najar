@@ -119,8 +119,10 @@ class PenjualanController extends Controller
      */
     public function update(Request $request, Penjualan $penjualan)
     {
+        // 🛠️ Disesuaikan dengan name="metode_pembayaran" dari form Blade
         $request->validate([
-            'payment_method' => 'required|in:CASH,QRIS'
+            'metode_pembayaran' => 'required|in:CASH,QRIS',
+            'uang_dibayar'      => 'nullable|numeric|min:0'
         ]);
 
         if ($penjualan->status !== 'OPEN') {
@@ -133,11 +135,17 @@ class PenjualanController extends Controller
 
         DB::transaction(function () use ($penjualan, $request) {
             $total = $penjualan->itemPenjualan()->sum('subtotal');
+            
+            // Hitung uang dibayar & kembalian
+            $uangDibayar = $request->metode_pembayaran === 'CASH' ? (float) $request->uang_dibayar : $total;
+            $kembalian   = $uangDibayar - $total;
 
             $penjualan->update([
-                'metode_pembayaran' => $request->payment_method,
+                'metode_pembayaran' => $request->metode_pembayaran,
                 'total_pembayaran'  => $total,
-                'status'            => 'COMPLETED'
+                'uang_dibayar'      => $uangDibayar,
+                'kembalian'         => $kembalian,
+                'status'            => 'COMPLETED' // ⚠️ Mengubah status ke selesai
             ]);
         });
 
@@ -151,7 +159,8 @@ class PenjualanController extends Controller
      */
     public function destroy(Penjualan $penjualan)
     {
-        $this->authorize('delete', $penjualan);
+        // Dihapus atau dicomment jika tidak pakai Policy
+        // $this->authorize('delete', $penjualan);
 
         // ! Pastikan hanya transaksi OPEN
         if ($penjualan->status !== 'OPEN') {

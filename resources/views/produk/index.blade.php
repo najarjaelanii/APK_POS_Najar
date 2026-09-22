@@ -120,8 +120,8 @@
         color: #fff;
     }
     .stock-badge.ok { background-color: #2e6de0; }
-    .stock-badge.low { background-color: #f9a825; }
-    .stock-badge.empty { background-color: #999; }
+    .stock-badge.low { background-color: #f9d925; }
+    .stock-badge.empty { background-color: #e61a1a; }
 
     .product-body {
         padding: 10px 12px 12px;
